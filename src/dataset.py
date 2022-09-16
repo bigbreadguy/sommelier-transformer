@@ -66,16 +66,3 @@ def create_dataset(dataset, cache_path=None, batch_size=4,
     dataset = dataset.prefetch(tf.data.experimental.AUTOTUNE)
     return dataset
 
-class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
-    def __init__(self, warmup_steps=1e4):
-        super().__init__()
-
-        self.warmup_steps = tf.cast(warmup_steps, tf.float32)
-        
-    def __call__(self, step):
-        step = tf.cast(step, tf.float32)
-        m = tf.maximum(self.warmup_steps, step)
-        m = tf.cast(m, tf.float32)
-        lr = tf.math.rsqrt(m)
-        
-        return lr 
