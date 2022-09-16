@@ -9,7 +9,7 @@ class WineReviewT5(TFT5ForConditionalGeneration):
     @tf.function
     def train_step(self, data):
         x = data
-        y = x["labels"]
+        y = x['labels']
         y = tf.reshape(y, [-1, 1])
         with tf.GradientTape() as tape:
             outputs = self(x, training=True)
@@ -31,7 +31,7 @@ class WineReviewT5(TFT5ForConditionalGeneration):
 
     def test_step(self, data):
         x = data
-        y = x["labels"]
+        y = x['labels']
         y = tf.reshape(y, [-1, 1])
         output = self(x, training=False)
         loss = output[0]
@@ -43,5 +43,5 @@ class WineReviewT5(TFT5ForConditionalGeneration):
         return {m.name: m.result() for m in self.metrics}
 
 def tokenizer():
-    tokenizer = AutoTokenizer.from_pretrained("t5-base")
+    tokenizer = AutoTokenizer.from_pretrained('t5-base')
     return tokenizer
