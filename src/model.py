@@ -42,6 +42,6 @@ class WineReviewT5(TFT5ForConditionalGeneration):
         self.compiled_metrics.update_state(y, logits)
         return {m.name: m.result() for m in self.metrics}
 
-def tokenizer():
+def load_tokenizer():
     tokenizer = AutoTokenizer.from_pretrained('t5-base')
     return tokenizer

@@ -4,7 +4,7 @@ import datetime
 import numpy as np
 import tensorflow as tf
 
-from src.model import tokenizer, WineReviewT5
+from src.model import load_tokenizer, WineReviewT5
 from src.dataset import WineReviewDataset, encode, to_tf_dataset, create_dataset
 
 class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
@@ -50,7 +50,7 @@ def train():
     steps = int(np.ceil(ntrain/batch_size))
     valid_steps = int(np.ceil(nvalid/batch_size))
 
-    tokenizer = tokenizer()
+    tokenizer = load_tokenizer()
     train_ds = train_dataset.map(lambda x: encode(x, tokenizer=tokenizer, encoder_max_len=encoder_max_len, decoder_max_len=decoder_max_len))
     valid_ds = valid_dataset.map(lambda x: encode(x, tokenizer=tokenizer, encoder_max_len=encoder_max_len, decoder_max_len=decoder_max_len))
 
