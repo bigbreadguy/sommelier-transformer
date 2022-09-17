@@ -103,7 +103,7 @@ def train(shards=False):
     model.compile(optimizer=optimizer, metrics=metrics)
 
     epochs_done = 0
-    model.fit(tf_train_ds, epochs=5, steps_per_epoch=20000, callbacks=callbacks, 
+    model.fit(tf_train_ds, epochs=5, steps_per_epoch=20000, callbacks=callbacks,
                validation_data=tf_valid_ds, validation_steps=valid_steps, initial_epoch=epochs_done)
     model.save_pretrained(save_path)
 
