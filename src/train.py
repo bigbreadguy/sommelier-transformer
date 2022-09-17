@@ -127,7 +127,7 @@ def test():
     
     
     generated_answer = model.generate(input_ids, attention_mask=attention_mask,
-                                    max_length=decoder_max_len, top_p=0.95, top_k=50, repetition_penalty=2)
+                                    max_length=decoder_max_len, top_p=0.95, top_k=50, repetition_penalty=2.0)
     decoded_answer = tokenizer.decode(generated_answer.numpy()[0])
 
     print('Review: ', decoded_answer)
