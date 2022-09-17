@@ -29,7 +29,7 @@ class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
 
         return config
 
-def train():
+def train(shards=False):
     train_test_split_ratio = 0.2
     warmup_steps = 1e4
     batch_size = 4
@@ -48,6 +48,8 @@ def train():
 
     dataset = WineReviewDataset()
     dataset = dataset.load()
+    if shards:
+        dataset = dataset.shard(num_shards=10000, index=0)
     
     train_test = dataset.train_test_split(test_size=train_test_split_ratio)
     train_dataset = train_test['train']
@@ -82,12 +84,12 @@ def train():
     checkpoint_filepath = os.path.join(save_path, 'T5-{epoch:04d}-{val_loss:.4f}.ckpt')
     model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
                                     filepath=checkpoint_filepath,
-                                    save_weights_only=False,
+                                    save_weights_only=True,
                                     monitor='val_loss',
                                     mode='min',
                                     save_best_only=True)
 
-    callbacks = [tensorboard_callback, model_checkpoint_callback] 
+    callbacks = [tensorboard_callback, model_checkpoint_callback]
     metrics = [tf.keras.metrics.SparseTopKCategoricalAccuracy(name='accuracy')]
 
     learning_rate = CustomSchedule(warmup_steps=warmup_steps)
@@ -103,7 +105,7 @@ def train():
     epochs_done = 0
     model.fit(tf_train_ds, epochs=5, steps_per_epoch=steps, callbacks=callbacks, 
                validation_data=tf_valid_ds, validation_steps=valid_steps, initial_epoch=epochs_done)
-    model.save_pretrained(save_path, include_optimizer=False)
+    model.save_pretrained(save_path)
 
 def test():
     encoder_max_len = 54
