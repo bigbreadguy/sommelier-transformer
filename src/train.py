@@ -35,8 +35,8 @@ def train():
     
     log_dir = os.path.join(data_dir, 'experiments', 't5', 'logs')
     save_path = os.path.join(data_dir, 'experiments', 't5', 'models')
-    cache_path_train = os.path.join(data_dir, 'cache', 't5.train')
-    cache_path_test = os.path.join(data_dir, 'cache', 't5.test')
+    cache_path_train = None #os.path.join(data_dir, 'cache', 't5.train')
+    cache_path_test = None #os.path.join(data_dir, 'cache', 't5.test')
 
     dataset = WineReviewDataset()
     dataset = dataset.load()
