@@ -1,4 +1,5 @@
 import os
+import glob
 import datetime
 
 import numpy as np
@@ -92,7 +93,11 @@ def train():
     learning_rate = CustomSchedule(warmup_steps=warmup_steps)
     optimizer = tf.keras.optimizers.Adam(learning_rate)
 
-    model = WineReviewT5.from_pretrained('t5-base')
+    if not glob.glob(os.path.join(save_path, '*.ckpt')):
+        model = WineReviewT5.from_pretrained('t5-base')
+    else:
+        model = WineReviewT5.from_pretrained(save_path)
+    
     model.compile(optimizer=optimizer, metrics=metrics)
 
     epochs_done = 0
