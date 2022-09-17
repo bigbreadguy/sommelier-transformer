@@ -103,7 +103,7 @@ def train():
     epochs_done = 0
     model.fit(tf_train_ds, epochs=5, steps_per_epoch=steps, callbacks=callbacks, 
                validation_data=tf_valid_ds, validation_steps=valid_steps, initial_epoch=epochs_done)
-    model.save_pretrained(save_path)
+    model.save_pretrained(save_path, include_optimizer=False)
 
 def test():
     encoder_max_len = 54
