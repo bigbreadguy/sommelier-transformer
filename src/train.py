@@ -39,11 +39,9 @@ def train():
     cache_path_test = os.path.join(data_dir, 'cache', 't5.test')
 
     dataset = WineReviewDataset()
-    dataset.shuffle()
-    dataset = dataset.transform('review')
+    dataset = dataset.load()
     
-    cut = int(len(dataset) * train_test_split_ratio)
-    train_dataset, valid_dataset = dataset[:cut], dataset[cut:]
+    train_dataset, valid_dataset = dataset.train_test_split(test_size=train_test_split_ratio)
 
     ntrain = len(train_dataset)
     nvalid = len(valid_dataset)
@@ -51,8 +49,8 @@ def train():
     valid_steps = int(np.ceil(nvalid/batch_size))
 
     tokenizer = load_tokenizer()
-    train_ds = list(map(lambda x: encode(x, tokenizer=tokenizer, encoder_max_len=encoder_max_len, decoder_max_len=decoder_max_len), train_dataset))
-    valid_ds = list(map(lambda x: encode(x, tokenizer=tokenizer, encoder_max_len=encoder_max_len, decoder_max_len=decoder_max_len), valid_dataset))
+    train_ds = train_dataset.map(lambda x: encode(x, tokenizer=tokenizer, encoder_max_len=encoder_max_len, decoder_max_len=decoder_max_len))
+    valid_ds = valid_dataset.map(lambda x: encode(x, tokenizer=tokenizer, encoder_max_len=encoder_max_len, decoder_max_len=decoder_max_len))
 
     tf_train_ds = to_tf_dataset(train_ds)
     tf_valid_ds = to_tf_dataset(valid_ds)
