@@ -120,7 +120,7 @@ def test():
     points = input('How would you rate the wine, Scale 0 to 100? : ')
     input_text = f'review_me: {str(variety)} from {str(province)}, point {str(points)} </s>'
 
-    encoded_query = tokenizer(input_text,
+    encoded_query = load_tokenizer(input_text,
                         return_tensors='tf', pad_to_max_length=True, truncation=True, max_length=encoder_max_len)
     input_ids = encoded_query['input_ids']
     attention_mask = encoded_query['attention_mask']
