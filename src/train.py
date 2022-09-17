@@ -66,7 +66,7 @@ def train():
     stop_profile_batch = start_profile_batch + 100
     profile_range = f'{start_profile_batch},{stop_profile_batch}'
 
-    log_path = os.path.join(log_dir, datetime.datetime.now().strftime('%Y-%m-%d_%H%M%S'))
+    log_path = os.path.join(log_dir, datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
     tensorboard_callback = tf.keras.callbacks.TensorBoard(
                                     log_dir=log_path, histogram_freq=1,
                                     update_freq=20,profile_batch=profile_range)
