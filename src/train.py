@@ -51,8 +51,8 @@ def train():
     valid_steps = int(np.ceil(nvalid/batch_size))
 
     tokenizer = load_tokenizer()
-    train_ds = train_dataset.map(lambda x: encode(x, tokenizer=tokenizer, encoder_max_len=encoder_max_len, decoder_max_len=decoder_max_len))
-    valid_ds = valid_dataset.map(lambda x: encode(x, tokenizer=tokenizer, encoder_max_len=encoder_max_len, decoder_max_len=decoder_max_len))
+    train_ds = list(map(lambda x: encode(x, tokenizer=tokenizer, encoder_max_len=encoder_max_len, decoder_max_len=decoder_max_len), train_dataset))
+    valid_ds = list(map(lambda x: encode(x, tokenizer=tokenizer, encoder_max_len=encoder_max_len, decoder_max_len=decoder_max_len), valid_dataset))
 
     tf_train_ds = to_tf_dataset(train_ds)
     tf_valid_ds = to_tf_dataset(valid_ds)
