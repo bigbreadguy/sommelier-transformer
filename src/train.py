@@ -21,6 +21,13 @@ class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
         
         return lr
 
+    def get_config(self):
+        config = {
+            'warmup_steps':self.warmup_steps
+        }
+
+        return config
+
 def train():
     train_test_split_ratio = 0.2
     warmup_steps = 1e4
