@@ -41,7 +41,9 @@ def train():
     dataset = WineReviewDataset()
     dataset = dataset.load()
     
-    train_dataset, valid_dataset = dataset.train_test_split(test_size=train_test_split_ratio)
+    dataset.train_test_split(test_size=train_test_split_ratio)
+    train_dataset = dataset['train']
+    valid_dataset = dataset['test']
 
     ntrain = len(train_dataset)
     nvalid = len(valid_dataset)
