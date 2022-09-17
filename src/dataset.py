@@ -1,24 +1,13 @@
 import os
-import pyarrow.parquet as pq
+from datasets import load_dataset
 import tensorflow as tf
 
 class WineReviewDataset():
     def __init__(self, path=os.path.join('data', 'winemag-data-130k.parquet')):
-        self.data = pq.read_table(path).to_pandas()
+        self.data = load_dataset("parquet", data_files={"train": path}, split="train")
     
-    def shuffle(self):
-        self.data.sample(frac=1, replace=True)
-    
-    def transform(self, task_name='review'):
-        tasks = ['review']
-        if task_name not in tasks:
-            raise ValueError('Invalid task name. Expected one of: %s' % tasks)
-        
-        switch = {
-            'review': ['description', 'points', 'province', 'variety'],
-        }
-
-        return list(row.loc[switch[task_name]].to_dict() for i, row in self.data.iterrows())
+    def load(self):
+        return self.data.shuffle()
 
 def encode(example, tokenizer, encoder_max_len=54, decoder_max_len=250):
     province = example['province']
