@@ -79,7 +79,7 @@ def train(shards=False):
     log_path = os.path.join(log_dir, datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
     tensorboard_callback = tf.keras.callbacks.TensorBoard(
                                     log_dir=log_path, histogram_freq=1,
-                                    update_freq=20,profile_batch=profile_range)
+                                    update_freq=20, profile_batch=profile_range)
 
     checkpoint_filepath = os.path.join(save_path, 'T5-{epoch:04d}-{val_loss:.4f}.ckpt')
     model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
